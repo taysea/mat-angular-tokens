@@ -1,1 +1,146 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// $my-app-primary: mat.m2-define-palette($mat-green);
+
+$my-app-theme: mat.define-theme((
+ color: (
+    theme-type: light,
+  ),
+));
+
+// Adding in fonts which can we found at: https://github.com/grommet/grommet-theme-hpe/blob/master/src/js/themes/hpe.js#L159
+// We are exploring how we might publish the font urls as a token
+@font-face {
+  font-family: "Metric";
+  src: url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Regular.woff2") format('woff2'),
+  url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Regular.woff") format('woff');
+}
+@font-face {
+  font-family: "Metric";
+  src: url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Regular.woff2") format('woff2'),
+  url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Regular.woff") format('woff');
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Metric";
+  src: url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Bold.woff2") format('woff2'),
+  url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Bold.woff") format('woff');
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Metric";
+  src: url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Semibold.woff2") format('woff2'),
+  url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Semibold.woff") format('woff');
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Metric";
+  src: url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Medium.woff2") format('woff2'),
+  url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Medium.woff") format('woff');
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Metric";
+  src: url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Light.woff2") format('woff2'),
+  url("https://www.hpe.com/h41225/hfws-static/fonts/metric-hpe-web/MetricHPE-Web-Light.woff") format('woff');
+  font-weight: 100;
+}
+
+html {
+  @include mat.all-component-themes($my-app-theme);
+  font-family: Metric, Arial, Helvetica, sans-serif;
+
+  // ------- override material specific hover layer because we will apply it via background on button ----- //
+  --mat-outlined-button-hover-state-layer-opacity: 0;
+  --mat-text-button-hover-state-layer-opacity: 0;
+
+  // HPE Button kind="default" => Material "Text" button
+  /* Below, the variables like --mdc-text-button-label-text-size are Material's CSS variables
+    and I'm assigning the value from hpe-design-tokens to them */
+  // --------- "dimension" related tokens to medium default button ------------ //
+  --mdc-text-button-label-text-size: var(--hpe-button-medium-default-font-size);
+  --mdc-text-button-label-font-weight: var(--hpe-button-default-enabled-font-weight);
+  --mdc-text-button-container-height: var(--hpe-button-medium-default-min-height);
+  --mdc-text-button-container-shape: var(--hpe-button-medium-default-border-radius);
+  --mdc-text-button-horizontal-padding: var(--hpe-button-medium-default-padding-x);
+  
+  // --------- "color" related tokens to default button ------------ //
+  --mdc-text-button-label-text-color: var(--hpe-button-default-enabled-text-color);
+  --mdc-text-button-label-text-font: 'Metric'; // "font-family" token coming in future
+
+  .mat-mdc-button {
+    --button-min-height:  var(--hpe-button-medium-default-min-height);
+    --button-border-width:  var(--hpe-button-medium-default-border-width);
+    --button-border-color:  var(--hpe-button-default-enabled-border-color);
+    // These properties didn't have MDC tokens, so assigning them to the properties directly
+    min-height: var(--button-min-height);
+    border: var(--button-border-width) solid var(--button-border-color);
+    padding-block: var(--hpe-button-medium-default-padding-y);
+    background: var(--hpe-button-default-enabled-background);
+  }
+
+  .mat-mdc-button:hover {
+    --mdc-text-button-label-text-color: var(--hpe-button-default-hover-text-color);
+    --mdc-text-button-label-text-color: var(--hpe-button-default-hover-text-color);
+    background: var(--hpe-button-default-hover-background);
+    border-color:  var(--hpe-button-default-hover-border-color);
+  }
+
+  .mat-mdc-button:disabled {
+    --mdc-text-button-label-text-color: var(--hpe-button-default-disabled-text-color);
+  --mdc-text-button-label-text-color: var(--hpe-button-default-disabled-text-color);
+    background: var(--hpe-button-default-disabled-background);
+    border-color:  var(--hpe-button-default-disabled-border-color);
+  }
+
+  .mat-mdc-button .mat-mdc-button-touch-target {
+    height: var(--hpe-button-medium-default-min-height);
+  }
+
+  // HPE Button kind="primary" => Material "Flat" button
+
+  // --------- "dimension" related tokens to medium primary button ------------ //
+  --mdc-filled-button-label-text-size: var(--hpe-button-medium-primary-font-size);
+  --mdc-filled-button-label-font-weight: var(--hpe-button-primary-enabled-font-weight);
+  --mdc-filled-button-container-height: var(--hpe-button-medium-primary-min-height);
+  --mdc-filled-button-container-shape: var(--hpe-button-medium-primary-border-radius);
+  --mat-filled-button-horizontal-padding: var(--hpe-button-medium-primary-padding-x);
+ 
+
+  // ---------- "color" tokens for a primary button ---------------- //
+  --mdc-unelevated-button-label-text-color: var(--hpe-button-primary-enabled-text-color);
+  
+  .mat-mdc-unelevated-button {
+    --mdc-filled-button-label-text-font: 'Metric';
+  }
+  .mat-mdc-unelevated-button:not(:disabled) {
+    min-height:  var(--hpe-button-medium-primary-min-height);
+    border-width:  var(--hpe-button-medium-primary-border-width);
+    border-color:  var(--hpe-button-primary-enabled-border-color);
+    background: var(--hpe-button-primary-enabled-background);
+  }
+
+  .mat-mdc-unelevated-button:hover {
+    --mdc-unelevated-button-label-text-color: var(--hpe-button-primary-hover-text-color);
+    background: var(--hpe-button-primary-hover-background);
+    border-color:  var(--hpe-button-primary-hover-border-color);
+    background: var(--hpe-button-primary-hover-background);
+  }
+
+  .mat-mdc-unelevated-button:disabled {
+    --mdc-outlined-button-label-text-color: var(--hpe-button-primary-disabled-text-color);
+    border-color:  var(--hpe-button-primary-disabled-border-color);
+    background: var(--hpe-button-primary-disabled-background);
+  }
+
+  // TO DO: LabRAT team, please try to style Material's "Outlined" button with HPE "secondary" button styles
+
+}
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
